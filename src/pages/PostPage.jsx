@@ -10,6 +10,9 @@ const PostPage = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
+        setPost(null);
+
         const loadPost = async () => {
             try {
                 // Dynamically import the markdown file
@@ -49,7 +52,7 @@ const PostPage = () => {
                 }
             }, 100);
         }
-    }, [loading]);
+    }, [loading, window.location.hash]);
 
     if (loading) {
         return (

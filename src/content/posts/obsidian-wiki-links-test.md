@@ -28,7 +28,7 @@ This post tests **Obsidian-style wiki-link** syntax, which is the standard way t
 ```markdown
 [[Debugging MeCab#The Problem]]
 ```
-**Example**: See [[Debugging MeCab Tagger Initialization in Android#The Problem|the problem section]].
+**Example**: See [[Debugging MeCab#The Problem|the problem section]].
 
 ## How It Works
 

@@ -1,5 +1,6 @@
 import 'highlight.js/styles/tokyo-night-dark.css';
 import ReactMarkdown from 'react-markdown';
+import { useNavigate } from 'react-router-dom';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
@@ -7,6 +8,8 @@ import remarkGfm from 'remark-gfm';
 import remarkWikiLink from 'remark-wiki-link';
 
 const BlogPost = ({ post, onClose }) => {
+    const navigate = useNavigate();
+
     if (!post) return null;
 
     const formatDate = (dateString) => {
@@ -61,18 +64,87 @@ const BlogPost = ({ post, onClose }) => {
                 {/* Post content */}
                 <div className="markdown-content">
                     <ReactMarkdown
-                        remarkPlugins={[remarkGfm, remarkWikiLink]}
+                        remarkPlugins={[
+                            remarkGfm,
+                            [remarkWikiLink, {
+                                pageResolver: (name) => [name.replace(/ /g, '-').toLowerCase()],
+                                hrefTemplate: (permalink) => `/post/${permalink}`,
+                                aliasDivider: '|',
+                            }]
+                        ]}
                         rehypePlugins={[
                             rehypeSlug,
                             [rehypeAutolinkHeadings, { behavior: 'wrap' }],
                             rehypeHighlight
                         ]}
+                        components={{
+                            a: ({ node, href, children, ...props }) => {
+                                console.log(href);
+                                // Handle same-page heading links
+                                if (href && href.includes('/post/#')) {
+                                    href = href.replace('/post/', '');
+                                    return (
+                                        <a
+                                            href={href}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                const headingId = href.slice(1);
+                                                const element = document.getElementById(headingId);
+                                                if (element) {
+                                                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                }
+                                                // Update URL hash
+                                                window.history.pushState(null, '', href);
+                                            }}
+                                            {...props}
+                                        >
+                                            {children}
+                                        </a>
+                                    );
+                                }
+
+                                // External links
+                                if (href && (href.startsWith('/post/http://') || href.startsWith('/post/https://'))) {
+                                    href = href.replace('/post/', '');
+                                    return (
+                                        <a
+                                            href={href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            {...props}
+                                        >
+                                            {children}
+                                        </a>
+                                    );
+                                }
+
+                                // Handle internal post links (from remark-wiki-link or manual links)
+                                if (href && href.startsWith('/post/')) {
+                                    return (
+                                        <a
+                                            href={href}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                navigate(href);
+                                            }}
+                                            className="text-accent-blue hover:text-accent-cyan transition-colors cursor-pointer"
+                                            {...props}
+                                        >
+                                            {children}
+                                        </a>
+                                    );
+                                }
+
+                                // Default link
+                                return <a href={href} {...props}>{children}</a>;
+                            }
+                        }}
                     >
                         {post.content}
                     </ReactMarkdown>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
