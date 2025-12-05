@@ -24,7 +24,8 @@ const PostPage = () => {
                     // Extract slug from path
                     const postSlug = path
                         .replace('../content/posts/', '')
-                        .replace('.md', '');
+                        .replace('.md', '')
+                        .replaceAll(' ', '-');
 
                     if (postSlug === slug) {
                         content = await postModules[path]();

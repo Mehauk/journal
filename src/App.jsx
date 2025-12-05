@@ -40,7 +40,8 @@ function HomePage() {
       // e.g., './content/posts/subdir/file.md' -> 'subdir/file'
       const slug = path
         .replace('./content/posts/', '')
-        .replace('.md', '');
+        .replace('.md', '')
+        .replaceAll(' ', '-');
 
       return {
         title: data.title || 'Untitled',
@@ -55,7 +56,8 @@ function HomePage() {
       console.error('Error parsing markdown:', error, path);
       const slug = path
         .replace('./content/posts/', '')
-        .replace('.md', '');
+        .replace('.md', '')
+        .replaceAll(' ', '-');
       return {
         title: 'Untitled',
         date: new Date().toISOString().split('T')[0],
