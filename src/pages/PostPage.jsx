@@ -15,9 +15,26 @@ const PostPage = () => {
 
         const loadPost = async () => {
             try {
-                // Dynamically import the markdown file
-                const postModule = await import(`../content/posts/${slug}.md?raw`);
-                const content = postModule.default;
+                // Load all posts and find the one matching the slug
+                const postModules = import.meta.glob('../content/posts/**/*.md', { query: '?raw', import: 'default' });
+
+                // Find the post that matches the slug
+                let content = null;
+                for (const path in postModules) {
+                    // Extract slug from path
+                    const postSlug = path
+                        .replace('../content/posts/', '')
+                        .replace('.md', '');
+
+                    if (postSlug === slug) {
+                        content = await postModules[path]();
+                        break;
+                    }
+                }
+
+                if (!content) {
+                    throw new Error('Post not found');
+                }
 
                 // Parse the markdown
                 const { data, content: markdownContent } = matter(content);

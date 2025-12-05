@@ -14,7 +14,7 @@ function HomePage() {
   useEffect(() => {
     // Load all markdown posts
     const loadPosts = async () => {
-      const postModules = import.meta.glob('./content/posts/*.md', { query: '?raw', import: 'default' });
+      const postModules = import.meta.glob('./content/posts/**/*.md', { query: '?raw', import: 'default' });
       const loadedPosts = [];
 
       for (const path in postModules) {
@@ -36,6 +36,12 @@ function HomePage() {
       // Use gray-matter to parse front matter
       const { data, content } = matter(rawContent);
 
+      // Extract slug from path, preserving subdirectory structure
+      // e.g., './content/posts/subdir/file.md' -> 'subdir/file'
+      const slug = path
+        .replace('./content/posts/', '')
+        .replace('.md', '');
+
       return {
         title: data.title || 'Untitled',
         date: data.date || new Date().toISOString().split('T')[0],
@@ -43,15 +49,18 @@ function HomePage() {
         excerpt: data.excerpt || '',
         readTime: data.readTime || '5 min read',
         content: content,
-        slug: path.split('/').pop().replace('.md', '')
+        slug: slug
       };
     } catch (error) {
       console.error('Error parsing markdown:', error, path);
+      const slug = path
+        .replace('./content/posts/', '')
+        .replace('.md', '');
       return {
         title: 'Untitled',
         date: new Date().toISOString().split('T')[0],
         content: rawContent,
-        slug: path.split('/').pop().replace('.md', '')
+        slug: slug
       };
     }
   };
