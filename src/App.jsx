@@ -1,13 +1,13 @@
 import matter from 'gray-matter';
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import BlogCard from './components/BlogCard';
-import BlogPost from './components/BlogPost';
 import Hero from './components/Hero';
 import './index.css';
+import PostPage from './pages/PostPage';
 
-function App() {
+function HomePage() {
   const [posts, setPosts] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState(null);
 
@@ -93,10 +93,10 @@ function App() {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setSelectedTag(null)}
-              className={`px - 4 py - 2 rounded - full font - medium transition - all ${!selectedTag
-                  ? 'bg-accent-purple text-white'
-                  : 'glass glass-hover text-gray-300'
-                } `}
+              className={`px-4 py-2 rounded-full font-medium transition-all ${!selectedTag
+                ? 'bg-accent-purple text-white'
+                : 'glass glass-hover text-gray-300'
+                }`}
             >
               All
             </button>
@@ -104,10 +104,10 @@ function App() {
               <button
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`px - 4 py - 2 rounded - full font - medium transition - all ${selectedTag === tag
-                    ? 'bg-accent-purple text-white'
-                    : 'glass glass-hover text-gray-300'
-                  } `}
+                className={`px-4 py-2 rounded-full font-medium transition-all ${selectedTag === tag
+                  ? 'bg-accent-purple text-white'
+                  : 'glass glass-hover text-gray-300'
+                  }`}
               >
                 {tag}
               </button>
@@ -122,7 +122,6 @@ function App() {
               <BlogCard
                 key={post.slug}
                 post={post}
-                onClick={() => setSelectedPost(post)}
               />
             ))}
           </div>
@@ -132,12 +131,16 @@ function App() {
           </div>
         )}
       </section>
-
-      {/* Blog post modal */}
-      {selectedPost && (
-        <BlogPost post={selectedPost} onClose={() => setSelectedPost(null)} />
-      )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/post/:slug" element={<PostPage />} />
+    </Routes>
   );
 }
 
