@@ -1,5 +1,9 @@
 
 const Hero = () => {
+    const githubAvatar = import.meta.env.VITE_GITHUB_AVATAR_URL;
+    const githubProfile = import.meta.env.VITE_GITHUB_PROFILE_URL;
+    const githubName = import.meta.env.VITE_GitHUB_NAME;
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             {/* Animated gradient background */}
@@ -10,6 +14,27 @@ const Hero = () => {
 
             {/* Content */}
             <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+                {githubAvatar && (
+                    <div className="mb-8 fade-in-up">
+                        <a
+                            href={githubProfile}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
+                        >
+                            <img
+                                src={githubAvatar}
+                                alt={githubName}
+                                className="w-32 h-32 rounded-full border-4 border-white/10 shadow-2xl hover:scale-105 transition-transform duration-300"
+                            />
+                        </a>
+                        {githubName && (
+                            <p className="mt-4 text-xl text-gray-300 font-medium">
+                                Hi, I'm {githubName}
+                            </p>
+                        )}
+                    </div>
+                )}
                 <h1 className="text-6xl md:text-8xl font-bold mb-6 fade-in-up">
                     <span className="gradient-text">Technical Journal</span>
                 </h1>
