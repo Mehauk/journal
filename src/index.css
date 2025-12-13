@@ -155,8 +155,13 @@ body {
 
 .markdown-content ul,
 .markdown-content ol {
+  list-style-type: circle;
   margin-bottom: 1rem;
   margin-left: 1.5rem;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
 }
 
 .markdown-content li {
