@@ -6,8 +6,6 @@ excerpt: Compiling the libmecab.so for use in Android (aarch64-linux-android)
 readTime: 7 min read
 ---
 
-# Building libmecab.so for Android
-
 ##### The Rundown
 First update Linux/WSL and install the build tools required. Then download and unpack the version of Mecab you are trying to build.
 
@@ -21,7 +19,7 @@ Then, update the config files - since they do not work for the target architectu
 
 Now run the automatic configuration, which builds all of the Makefiles for the project.
 
-At this stage you also need to update `MECAB_DEFAULT_RC` in the Makefiles to point to a file that you will need to provide in your android app. I have provided the [[#mecabrc|File]] below.
+At this stage you also need to update `MECAB_DEFAULT_RC` in the Makefiles to point to a file that you will need to provide in your android app. I have provided the [[#Files|File]] below.
 
 You should now be able to, in the root of your project, `make` the library.
 
@@ -103,15 +101,15 @@ export DICTPATH = "/data/user/0/com.example.com/files"
   LDFLAGS="$LDFLAGS"
 ```
 
-##### ##### Compile the shared library (.so)
+##### Compile the shared library (.so)
 Your libmecab.so can now now be created in `./src/.libs` by running `make`. This also created a `libmecab.a` file which can be used for statically linking with another shared library (for `libmecab-java.so` as an example).
 ```
 make -j$(nproc)
 ```
 
-#### Files
-##### mecabrc
+##### Files
 Put this in the location you specified for `DICTPATH`. Make sure that `dicdir` points to the location you put the compiled mecab dictionary, which you can find how to do [[Building IPADICT|here.]]
 ```
+# mecabrc
 dicdir = /data/user/0/com.example.com/files/ipadic
 ```

@@ -6,7 +6,6 @@ excerpt: Building the required shared libraries to be used in andoird developmen
 readTime: 20 min read
 ---
 
-# Compiling MeCab for use in Android
 The package [[https://mvnrepository.com/artifact/org.chasen.mecab/mecab-java|mecab java]] requires the `libmecab-java.so` shared library to be packaged with the android application. This article walks through the various steps required to build this library.
 
 ##### The Rundown

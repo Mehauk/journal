@@ -128,7 +128,7 @@ const SideNav = ({ fileTree, headings, currentSlug }) => {
                     <div className="border-l border-gray-800 ml-[15px]">
                         {/* 1. Headings (Only if this is the current active article) */}
                         {isCurrent && headings && headings.length > 0 && (
-                            <div className="py-1">
+                            <div className="p-1 ">
                                 {headings.map((heading, index) => (
                                     <a
                                         key={index}

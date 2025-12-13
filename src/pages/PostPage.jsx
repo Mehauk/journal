@@ -127,9 +127,12 @@ const PostPage = () => {
                 }
 
                 // Extract headings
-                const headingRegex = /^(#{2,3})\s+(.*)$/gm;
+                // First strip code blocks to avoid matching comments as headings
+                const contentForHeadings = markdownContent.replace(/^```[\s\S]*?^```/gm, '');
+
+                const headingRegex = /^(#{1,6})\s+(.*)$/gm;
                 let match;
-                while ((match = headingRegex.exec(markdownContent)) !== null) {
+                while ((match = headingRegex.exec(contentForHeadings)) !== null) {
                     headings.push({
                         level: match[1].length,
                         text: match[2],

@@ -6,7 +6,6 @@ excerpt: Compiling the libmecab-java.so for use in Android (aarch64-linux-androi
 readTime: 5 min read
 ---
 
-# Building libmecab-java.so for Android
 This is not the same is `libmecab.so` which is built from the Mecab source. In fact the default name for this file is `libMeCab.so` so it can be a bit confusing.
 
 ##### The Rundown
