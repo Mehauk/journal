@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 const BlogCard = ({ post }) => {
     const formatDate = (dateString) => {
         if (!dateString) return '';
@@ -15,8 +13,8 @@ const BlogCard = ({ post }) => {
     };
 
     return (
-        <Link to={`/post/${post.slug}`}>
-            <article className="glass glass-hover rounded-2xl p-6 cursor-pointer transform transition-all hover:scale-105 fade-in-up flex flex-col h-full">
+        <a href={`/post/${post.slug}`}>
+            <article className="glass glass-hover rounded-2xl p-6 cursor-pointer transform transition-all hover:scale-105 flex flex-col h-full">
                 <div className="flex items-center gap-2 text-sm text-gray-400 mb-3">
                     <time>{formatDate(post.date)}</time>
                     <span>•</span>
@@ -43,7 +41,7 @@ const BlogCard = ({ post }) => {
                     ))}
                 </div>
             </article>
-        </Link>
+        </a>
     );
 };
 

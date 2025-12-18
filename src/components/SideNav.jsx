@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const SideNav = ({ fileTree, currentSlug, isOpen, onClose }) => {
-    const navigate = useNavigate();
     const [expandedPaths, setExpandedPaths] = useState(new Set());
 
     // Auto-expand parents of current article
@@ -69,7 +67,8 @@ const SideNav = ({ fileTree, currentSlug, isOpen, onClose }) => {
 
         return (
             <div key={node.path} className="mb-px">
-                <div
+                <a
+                    href={`/post/${node.slug}`}
                     className={`group flex items-center py-1.5 px-2 rounded-md transition-colors ${isCurrent
                         ? 'bg-accent-purple/10 text-accent-purple'
                         : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -77,11 +76,10 @@ const SideNav = ({ fileTree, currentSlug, isOpen, onClose }) => {
                     style={{ marginLeft }}
                 >
                     <button
-                        onClick={(e) => hasChildren ? toggleExpand(node.path, e) : null}
-                        className={`p-0.5 mr-1 rounded hover:bg-white/10 ${!hasChildren ? 'opacity-0 pointer-events-none' : ''}`}
+                        className={`p-0.5 mr-1 rounded hover:bg-white/10 ${!hasChildren ? 'hidden pointer-events-none' : ''}`}
                     >
                         <svg
-                            className={`w-3 h-3 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                            className={`w-3 h-3 ${isExpanded ? 'rotate-90' : ''}`}
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -90,22 +88,12 @@ const SideNav = ({ fileTree, currentSlug, isOpen, onClose }) => {
                         </svg>
                     </button>
 
-                    {node.slug ? (
-                        <button
-                            onClick={() => {
-                                navigate(`/post/${node.slug}`);
-                                if (onClose) onClose();
-                            }}
-                            className="flex-1 text-left text-sm truncate"
-                        >
-                            {node.title || node.name}
-                        </button>
-                    ) : (
-                        <span className="flex-1 text-sm font-medium truncate opacity-70">
-                            {node.title || node.name}
-                        </span>
-                    )}
-                </div>
+                    <p
+                        className="flex-1 text-left text-sm truncate"
+                    >
+                        {node.title || node.name}
+                    </p>
+                </a>
 
                 {hasChildren && isExpanded && (
                     <div className="border-l border-gray-800 ml-[15px]">

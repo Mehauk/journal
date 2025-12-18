@@ -1,7 +1,6 @@
 import 'highlight.js/styles/tokyo-night-dark.css';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { useNavigate } from 'react-router-dom';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeSlug from 'rehype-slug';
@@ -43,11 +42,6 @@ const TableOfContents = ({ headings }) => {
                     <a
                         key={heading.id}
                         href={`#${heading.id}`}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            document.getElementById(heading.id)?.scrollIntoView({ behavior: 'smooth' });
-                            window.history.pushState(null, '', `#${heading.id}`);
-                        }}
                         className={`block py-1.5 px-4 text-sm transition-all border-l-2 truncate ${activeId === heading.id
                             ? 'text-accent-purple border-accent-purple bg-accent-purple/5'
                             : 'text-gray-500 border-transparent hover:text-gray-300 hover:border-gray-700'
@@ -63,7 +57,6 @@ const TableOfContents = ({ headings }) => {
 };
 
 const BlogPost = ({ post }) => {
-    const navigate = useNavigate();
     const [isNavOpen, setIsNavOpen] = useState(false);
 
     const formatDate = (dateString) => {
@@ -112,10 +105,6 @@ const BlogPost = ({ post }) => {
                                             {item.path ? (
                                                 <a
                                                     href={item.path}
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        navigate(item.path);
-                                                    }}
                                                     className="hover:text-accent-purple transition-colors"
                                                 >
                                                     {item.label}
@@ -209,15 +198,6 @@ const BlogPost = ({ post }) => {
                                                     return (
                                                         <a
                                                             href={href}
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                const headingId = href.slice(1);
-                                                                const element = document.getElementById(headingId);
-                                                                if (element) {
-                                                                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                                                }
-                                                                window.history.pushState(null, '', href);
-                                                            }}
                                                             {...props}
                                                         >
                                                             {children}
@@ -243,10 +223,6 @@ const BlogPost = ({ post }) => {
                                                     return (
                                                         <a
                                                             href={href}
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                navigate(href);
-                                                            }}
                                                             className="text-accent-blue hover:text-accent-cyan transition-colors cursor-pointer"
                                                             {...props}
                                                         >
@@ -273,10 +249,6 @@ const BlogPost = ({ post }) => {
                                             <a
                                                 key={index}
                                                 href={`/post/${subArticle.slug}`}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    navigate(`/post/${subArticle.slug}`);
-                                                }}
                                                 className="block p-6 rounded-2xl glass hover:bg-white/5 transition-all group border border-white/5"
                                             >
                                                 <h3 className="text-xl font-bold mb-3 group-hover:text-accent-purple transition-colors">
