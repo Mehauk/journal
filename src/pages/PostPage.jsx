@@ -1,13 +1,12 @@
 import matter from 'gray-matter';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import BlogPost from '../components/BlogPost';
 
 const PostPage = () => {
     const location = useLocation();
     const slug = location.pathname.replace('/post/', '');
 
-    const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
 

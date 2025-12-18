@@ -3,12 +3,12 @@ title: Building libmecab-java.so for Android
 date: 2025-11-29
 tags: [shared library, android, native, mecab]
 excerpt: Compiling the libmecab-java.so for use in Android (aarch64-linux-android)
-readTime: 5 min read
+readTime: 7 min read
 ---
 
 This is not the same is `libmecab.so` which is built from the Mecab source. In fact the default name for this file is `libMeCab.so` so it can be a bit confusing.
 
-##### The Rundown
+### The Rundown
 First update Linux/WSL and install the build tools required. Then download and unpack the version of Mecab-java we are trying to build.
 
 Next is setting the environment variables that will be referenced inside the Makefile. Mecab-Java already comes with a Makefile, but it is not sufficient to compile the `arm64-v8a` version we need for android.
@@ -19,7 +19,7 @@ Note:
 	~~It is probably possible to statically link `libmecab.a` so we don't require both `libmecab.so` and `libmecab-java.so`. Furthermore, if we could statically link `libc++` (or maybe `libc++shared`) into `libmecab` in the first place, we might only need this final result.~~ 
 	We will build `libmecab-java.so` with both `libc++` and `libmecab` statically linked
 
-##### Prerequisites
+### Prerequisites
 - Follow this [[Building libmecab.so for android (old)|link]] to build `libmecab.so/a` as it is required when building MeCab-Java. 
 - Use Linux or WSL for builds
 - Install Java
@@ -30,14 +30,14 @@ sudo apt update
 sudo apt install build-essential
 ```
 
-##### Download and unpack mecab-java-X.XXX.tar.
+### Download and unpack mecab-java-X.XXX.tar.
 You can find the downloads [[Links and References|here.]] (I used 0.993)
 If required, fix the directory permissions
 ```
 sudo chown -R $USER:$USER ~/path/to/mecab-java-0.993
 ```
 
-##### Setting up the environment
+### Setting up the environment
 ```
 # Set up Android NDK environment
 export NDK=~/path/to/android-ndk-r29
@@ -68,7 +68,7 @@ export MECAB_A=~/path/to/mecab-0.993/src/.libs/libmecab.a
 export MECAB_INCLUDE=~/path/to/mecab-0.993/src
 ```
 
-##### Updating the Makefile
+### Updating the Makefile
 replace the current `Makefile` with:
 ```
 # ----------------------------
@@ -104,10 +104,9 @@ all:
 
 clean:
     rm -fr *.o *.so *.class *.jar $(PACKAGE)/*.class
-
 ```
 
-##### Compiling
+### Compiling
 Run `make` in the directory with the Makefile. `libMeCab.so` and `MeCab.jar` should be built in the same location.
 ```
 cd ~/path/to/mecab-java-0.993

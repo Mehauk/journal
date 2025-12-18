@@ -6,7 +6,7 @@ excerpt: Compiling the libmecab.so for use in Android (aarch64-linux-android)
 readTime: 7 min read
 ---
 
-##### The Rundown
+### The Rundown
 First update Linux/WSL and install the build tools required. Then download and unpack the version of Mecab you are trying to build.
 
 Next create environment variables for the scripts and commands that are about to be used. 
@@ -23,20 +23,20 @@ At this stage you also need to update `MECAB_DEFAULT_RC` in the Makefiles to poi
 
 You should now be able to, in the root of your project, `make` the library.
 
-##### Prerequisites
+### Prerequisites
 ```
 sudo apt update
 sudo apt install build-essential
 ```
 
-##### Download and unpack mecab-X.XXX.tar.
+### Download and unpack mecab-X.XXX.tar.
 You can find the downloads [[Links and References|here.]] (I used 0.993)
 If required, fix the directory permissions
 ```
 sudo chown -R $USER:$USER ~/path/to/mecab-0.993
 ```
 
-##### Set up the environment
+### Set up the environment
 ```
 # Set up Android NDK environment
 export NDK=~/path/to/android-ndk-r29
@@ -59,7 +59,7 @@ export CXXFLAGS="-fPIC -D__ANDROID_API__=${API} -stdlib=libc++  -I$NDK/toolchai
 export LDFLAGS="-stdlib=libc++ -L$NDK/toolchains/llvm/prebuilt/linux-x86_64/lib64 -static-libstdc++"
 ```
 
-##### Update some config files that don't work (except on X86_64?)
+### Update some config files that don't work (except on X86_64?)
 ```
 cd ~/path/to/mecab-0.993
 wget -O config.sub  https://git.savannah.gnu.org/cgit/config.git/plain/config.sub
@@ -79,7 +79,7 @@ chmod +x config.sub config.guess
 autoreconf -i
 ```
 
-##### Run the configuration
+### Run the configuration
 By default this will cause the builds to occur in `./src/.libs/`, but you can change this by setting a `--prefix` tag.
 ```
 cd ~/path/to/mecab-0.993
@@ -100,13 +100,13 @@ export DICTPATH = "/data/user/0/com.example.com/files"
   LDFLAGS="$LDFLAGS"
 ```
 
-##### Compile the shared library (.so)
+### Compile the shared library (.so)
 Your libmecab.so can now now be created in `./src/.libs` by running `make`. This also created a `libmecab.a` file which can be used for statically linking with another shared library (for `libmecab-java.so` as an example).
 ```
 make -j$(nproc)
 ```
 
-##### Files
+### Files
 Put this in the location you specified for `DICTPATH`. Make sure that `dicdir` points to the location you put the compiled mecab dictionary, which you can find how to do [[Building IPADICT|here.]]
 ```
 # mecabrc

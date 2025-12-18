@@ -101,7 +101,7 @@ const BlogPost = ({ post }) => {
                                 <nav className="mb-8 sm:flex flex-wrap items-center gap-2 text-sm text-gray-400 hidden">
                                     {post.breadcrumbs && post.breadcrumbs.map((item, index) => (
                                         <div key={index} className="flex items-center gap-2">
-                                            {index > 0 && <span className="text-gray-600">/</span>}
+                                            {index > 0 && <span className="text-gray-600">{">"}</span>}
                                             {item.path ? (
                                                 <a
                                                     href={item.path}
